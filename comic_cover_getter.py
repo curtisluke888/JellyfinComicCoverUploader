@@ -72,8 +72,13 @@ class JellyfinInterface():
         itemId = self.getItemId(fileName)
         
         response = requests.post(self.serverAddress + "Items/" + itemId + "/Images/Primary", headers=self.headers, data=imagePayload)
-        print ("POST Response: " + str(response) + "\nFile: " + fileName + "'s image has been uploaded")
-        print (response.url)
+            
+        if(self.debug):
+            if(response.status_code == 204):
+                print ("POST Response: " + str(response) + "\nFile: " + fileName + "'s image has been uploaded")
+            else:
+                print ("POST Response: " + str(response) + "\nFile: " + fileName + "'s image has failed POST request")
+            print (response.url)
         
         self.headers.pop('Content-Type')
         
@@ -85,6 +90,7 @@ class JellyfinInterface():
         return base64.b64encode(image).decode('utf-8')
             
     def start(self, startDirectory = os.getcwd()):
+        print ("Program has started.")
         for comicFile in os.listdir(startDirectory):
             if(os.path.isdir(comicFile)):
                     self.start(comicFile)
@@ -94,6 +100,7 @@ class JellyfinInterface():
                     self.setImageAPI(os.path.join(startDirectory,comicFile))
                 except:
                     print (os.path.join(startDirectory,comicFile) + " has failed to upload." )
+        print ("Program has completed.")
                 
                 
     #make this method called _fast; it only returns if jellyfin title is same as file path
@@ -101,10 +108,12 @@ class JellyfinInterface():
         
         searchTerm = os.path.basename(fileName.split(".",1)[0])
         
-        print ("Search Term : " + searchTerm)
+        
+        
         
         response = requests.get(self.serverAddress + "Users/" + self.user_id + "/Items?recursive=true&fields=path&searchTerm=" + searchTerm, headers=self.headers)
         if(self.debug):
+            print ("Search Term : " + searchTerm)
             print ("GET Item Id Response: " + str(response))
             with open('responseItemId.json', 'wb') as outstream:
                 outstream.write(response.content)
@@ -119,8 +128,6 @@ class JellyfinInterface():
         
     def loginPassword(self, username, password):
         payload = {"Username": username, "Pw": password}
-        
-        authorization = 'MediaBrowser Client="other", Device="my-script", DeviceId="0000", Version="0.0.0"'
      
         self.headers['Authorization'] = self.authorization
         
@@ -128,7 +135,7 @@ class JellyfinInterface():
         
         self.token = response.json().get('AccessToken')
         self.user_id = response.json().get('User').get('Id')
-        self.headers['Authorization'] = f'{authorization}, Token="{self.token}"'
+        self.headers['Authorization'] = f'{self.authorization}, Token="{self.token}"'
         if(self.debug):
             print ("Login Response: " + str(response))
             with open('responseLoginPassword.json', 'wb') as outstream:
