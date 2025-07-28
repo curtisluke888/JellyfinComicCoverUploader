@@ -213,3 +213,6 @@ __marimo__/
 *.cbr
 *.cbz
 *.pdf
+
+#remove testing file
+test.py

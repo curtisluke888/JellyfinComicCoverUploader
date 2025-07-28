@@ -14,9 +14,9 @@ from io import BytesIO
 acceptableComicFileTypes = [".cbr", ".cbz", ".pdf"]
 
 class JellyfinInterface():
-    def __init__(self, serverAddress, debug=False):
+    def __init__(self, serverAddress, debug=False, client="other", device="my-script", deviceId="0000", version="0.0.0"):
         self.serverAddress = serverAddress
-        self.authorization = 'MediaBrowser Client="other", Device="my-script", DeviceId="1701", Version="0.0.0"'
+        self.authorization = 'MediaBrowser Client="' + client + '", Device="' + device + '", DeviceId="' + deviceId + '", Version="' + version + ' "'
         self.headers = {}
         self.debug = debug
     
