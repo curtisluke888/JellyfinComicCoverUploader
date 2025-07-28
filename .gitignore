@@ -205,3 +205,11 @@ cython_debug/
 marimo/_static/
 marimo/_lsp/
 __marimo__/
+
+#removed debugging responses don't get uploaded to share sensitive information
+*.json
+
+#remove testing comic files to not break copyright
+*.cbr
+*.cbz
+*.pdf
