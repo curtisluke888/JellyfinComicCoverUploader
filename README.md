@@ -19,7 +19,7 @@ Note: also works with regular books as well, as long as they are pdfs.
 
 - Install libraries with this line, in the directory where the file is.
 
-`pip install -r requirements.txt`
+`pip install -r requirements.txt` (NOT WOKRING YET)
 
 
 ## Uses: ## 
