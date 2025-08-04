@@ -99,7 +99,7 @@ class JellyfinInterface():
                 try:
                     self.setImageAPI(os.path.join(startDirectory,comicFile))
                 except:
-                    #print (os.path.join(startDirectory,comicFile) + " has failed to upload." )
+                    print (os.path.join(startDirectory,comicFile) + " has failed to upload." )
         print ("Program has completed.")
                 
                 
