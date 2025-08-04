@@ -93,7 +93,7 @@ class JellyfinInterface():
         print ("Program has started.")
         for comicFile in os.listdir(startDirectory):
             if(os.path.isdir(os.path.join(startDirectory,comicFile))):
-                    self.start(comicFile)
+                    self.start(os.path.join(startDirectory,comicFile))
                     continue
             if(os.path.splitext(comicFile)[1] in acceptableComicFileTypes):
                 try:
