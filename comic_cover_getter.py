@@ -71,7 +71,7 @@ class JellyfinInterface():
         
         itemId = self.getItemId(fileName)
         
-        response = requests.post(self.serverAddress + "Items/" + itemId + "/Images/Primary", headers=self.headers, data=imagePayload)
+        response = requests.post(self.serverAddress + "Items/" + str(itemId) + "/Images/Primary", headers=self.headers, data=imagePayload)
             
         if(self.debug):
             if(response.status_code == 204):
@@ -93,13 +93,13 @@ class JellyfinInterface():
         print ("Program has started.")
         for comicFile in os.listdir(startDirectory):
             if(os.path.isdir(os.path.join(startDirectory,comicFile))):
-                    self.start(comicFile)
+                    self.start(os.path.join(startDirectory,comicFile))
                     continue
             if(os.path.splitext(comicFile)[1] in acceptableComicFileTypes):
                 try:
                     self.setImageAPI(os.path.join(startDirectory,comicFile))
                 except:
-                    print (os.path.join(startDirectory,comicFile) + " has failed to upload." )
+                    #print (os.path.join(startDirectory,comicFile) + " has failed to upload." )
         print ("Program has completed.")
                 
                 
@@ -115,8 +115,12 @@ class JellyfinInterface():
         if(self.debug):
             print ("Search Term : " + searchTerm)
             print ("GET Item Id Response: " + str(response))
+            print ("URL: " + response.url)
             with open('responseItemId.json', 'wb') as outstream:
                 outstream.write(response.content)
+            if (response.json().get('Items') == []):
+                print ("getItemId has returned no results.")
+                return 0
         
         itemId = 0
         
