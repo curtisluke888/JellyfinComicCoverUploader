@@ -4,6 +4,7 @@
 #add ability to pass path from cli
 #class implementation
 #   -add api key support
+#add ComicAPI Connection
 
 
 import rarfile, os, requests,base64, json, zipfile
@@ -12,6 +13,7 @@ from pdf2image import convert_from_path
 from io import BytesIO
 
 acceptableComicFileTypes = [".cbr", ".cbz", ".pdf"]
+validImageTypes = [".jpg", ".png"]
 
 class JellyfinInterface():
     def __init__(self, serverAddress, debug=False, client="other", device="my-script", deviceId="0000", version="0.0.0"):
@@ -62,8 +64,6 @@ class JellyfinInterface():
         
         
     def setImageAPI(self, fileName):
-    
-        
         
         imagePayload = self.imageToBase64(self.extractCoverImage(fileName))
         
@@ -107,9 +107,6 @@ class JellyfinInterface():
     def getItemId(self, fileName):
         
         searchTerm = os.path.basename(fileName.split(".",1)[0])
-        
-        
-        
         
         response = requests.get(self.serverAddress + "Users/" + self.user_id + "/Items?recursive=true&fields=path&searchTerm=" + searchTerm, headers=self.headers)
         if(self.debug):
