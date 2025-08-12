@@ -115,9 +115,9 @@ class JellyfinInterface():
             print ("URL: " + response.url)
             with open('responseItemId.json', 'wb') as outstream:
                 outstream.write(response.content)
-            if (response.json().get('Items') == []):
-                print ("getItemId has returned no results.")
-                return 0
+        if (response.json().get('Items') == []):
+            print ("getItemId has returned no results. Either the file is not loaded onto JellyFin or the comic file name is to generic.")
+            return -1
         
         itemId = 0
         
